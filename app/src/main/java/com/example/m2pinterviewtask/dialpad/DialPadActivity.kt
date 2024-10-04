@@ -5,18 +5,26 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.m2pinterviewtask.R
 import com.example.m2pinterviewtask.databinding.ActivityDialPadBinding
 
 class DialPadActivity : AppCompatActivity() {
 
-    private var binding = ActivityDialPadBinding
+    private lateinit var viewModel: DialPadViewModel
+    private lateinit var binding: ActivityDialPadBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding =
-        setContentView(R.layout.activity_dial_pad)
+        binding = ActivityDialPadBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(DialPadViewModel::class.java)
+
+
+
+
 
 
 
