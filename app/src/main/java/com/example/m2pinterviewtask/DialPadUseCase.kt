@@ -2,11 +2,17 @@ package com.example.m2pinterviewtask
 
 class DialPadUseCase(private val repository: DialPadRepository) {
 
+    private var currentDigits = ""
+
     fun addDigit(digit: String): String {
-        return repository.addDigit(digit)
+        currentDigits += digit
+        return "$currentDigits"
     }
 
     fun removeLastDigit(): String {
-        return repository.removeLastDigit()
+        if (currentDigits.isNotEmpty()) {
+            currentDigits = currentDigits.dropLast(1)
+        }
+        return if (currentDigits.isEmpty()) "" else currentDigits
     }
 }
