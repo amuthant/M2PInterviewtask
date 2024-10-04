@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">M2PInterviewtask</string>
+    <string name="balance">Balance</string>
+    <string name="hint_dollars">$13,935</string>
+    <string name="sub_heading_one">How much would you like to send?</string>
+    <string name="dollar_zero">$0</string>
+    <string name="confirm">Confirm</string>
+</resources>
