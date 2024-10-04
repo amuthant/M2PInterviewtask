@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.m2pinterviewtask.dialpad.DialPadViewModel" />
+            type="com.example.m2pinterviewtask.DialPadViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -71,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
             android:hint="@string/dollar_zero"
+            android:textColor="#FFFFFF"
             android:textSize="52sp"
             android:textAllCaps="true"
             android:textColorHint="#FFFFFF"
@@ -103,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_1"
                         android:text="1"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -114,6 +116,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_2"
                         android:text="2"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -125,6 +128,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_3"
                         android:text="3"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -143,6 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_4"
                         android:text="4"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -154,6 +159,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_5"
                         android:text="5"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -165,6 +171,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_6"
                         android:text="6"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -183,6 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_7"
                         android:text="7"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -194,6 +202,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_8"
                         android:text="8"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -205,6 +214,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_9"
                         android:text="9"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -223,6 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_dot"
                         android:text="."
                         android:gravity="center"
                         android:textSize="25sp"
@@ -234,6 +245,7 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_0"
                         android:text="0"
                         android:gravity="center"
                         android:textSize="25sp"
@@ -245,14 +257,17 @@
                     </androidx.appcompat.widget.AppCompatTextView>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/btn_backspace"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:background="@drawable/baseline_backspace_24"
                             android:layout_width="24dp"
-                            android:layout_height="wrap_content">
+                            android:layout_height="24dp">
 
                         </androidx.appcompat.widget.AppCompatImageView>
                     </androidx.appcompat.widget.LinearLayoutCompat>
