@@ -12,8 +12,8 @@ import java.util.Locale
 
 class CurrencyEditText : AppCompatEditText {
 
-    private var locale: Locale? = null
-    private var currency: Currency? = null
+    private val locale: Locale = Locale.US // Force to use US locale for dollar
+    private val currency: Currency = Currency.getInstance(locale)
     private var maxLength: Int = 30
     private var value = 0.0
 
@@ -27,12 +27,10 @@ class CurrencyEditText : AppCompatEditText {
 
     init {
         inputType = InputType.TYPE_CLASS_NUMBER
-        locale = Locale.getDefault()
-        currency = Currency.getInstance(locale)
+        addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
 
-        addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) { }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 var cleanString = s.toString().replace("\\D+".toRegex(), "") // Get only digits
@@ -42,10 +40,12 @@ class CurrencyEditText : AppCompatEditText {
                     cleanString = cleanString.substring(0, cleanString.length - 1)
                 }
 
-                val parsed = cleanString.toDouble()
+                // Handle empty string case to avoid NumberFormatException
+                val parsed = if (cleanString.isNotEmpty()) cleanString.toDouble() else 0.0
 
                 value = parsed / 100
 
+                // Use US Dollar formatting
                 val formatted = NumberFormat.getCurrencyInstance(locale).format(value)
 
                 removeTextChangedListener(this) // Prevent calling this watcher when formatting the text
@@ -58,7 +58,7 @@ class CurrencyEditText : AppCompatEditText {
         })
 
         if (text.isNullOrEmpty()) {
-            setText("0")
+            setText("$0.00") // Default display for empty input
         }
     }
 
@@ -68,13 +68,6 @@ class CurrencyEditText : AppCompatEditText {
         if (selectionEnd != getEndingSelection()) {
             setSelection(getEndingSelection())
         }
-    }
-
-    fun setLocale(locale: Locale) {
-        this.locale = locale
-        currency = Currency.getInstance(locale)
-
-        setText((value * 100).toInt().toString())
     }
 
     fun setMaxLength(maxLength: Int) {
@@ -93,8 +86,7 @@ class CurrencyEditText : AppCompatEditText {
             string.length
         } else {
             // Currency symbol is on the right side, the cursor must be before it
-            string.replace("[${currency?.symbol}\\s]".toRegex(), "").length
+            string.replace("[${currency.symbol}\\s]".toRegex(), "").length
         }
     }
-
 }

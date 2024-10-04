@@ -65,7 +65,7 @@
 
         </androidx.appcompat.widget.AppCompatTextView>
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.example.m2pinterviewtask.CurrencyEditText
             android:id="@+id/appCompatEditText"
             android:layout_width="match_parent"
             android:layout_marginStart="22dp"
@@ -81,9 +81,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
 
-        </androidx.appcompat.widget.AppCompatEditText>
 
 
 
