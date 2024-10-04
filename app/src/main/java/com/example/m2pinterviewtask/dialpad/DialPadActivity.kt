@@ -115,6 +115,7 @@ class DialPadActivity : AppCompatActivity() {
         setupButtonListener(binding.btn7, "7")
         setupButtonListener(binding.btn8, "8")
         setupButtonListener(binding.btn9, "9")
+        setupButtonListener(binding.btn0, "0")
         setupButtonListener(binding.btnDot, ".")
 
         binding.btnBackspace.setOnClickListener {
