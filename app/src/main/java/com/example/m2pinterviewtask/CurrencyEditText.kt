@@ -12,10 +12,11 @@ import java.util.Locale
 
 class CurrencyEditText : AppCompatEditText {
 
-    private val locale: Locale = Locale.US // Force to use US locale for dollar
+    private val locale: Locale = Locale.US
     private val currency: Currency = Currency.getInstance(locale)
     private var maxLength: Int = 30
     private var value = 0.0
+    private var isFormatting: Boolean = false
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -26,39 +27,61 @@ class CurrencyEditText : AppCompatEditText {
     )
 
     init {
-        inputType = InputType.TYPE_CLASS_NUMBER
+        inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                var cleanString = s.toString().replace("\\D+".toRegex(), "") // Get only digits
+                if (isFormatting) return
 
-                // If max length is exceeded, remove new digit
-                if (cleanString.length > maxLength) {
-                    cleanString = cleanString.substring(0, cleanString.length - 1)
+                isFormatting = true
+                var cleanString = s.toString().replace("[^\\d.]".toRegex(), "")
+
+                val dotIndex = cleanString.indexOf(".")
+                val integerPart: String
+                var decimalPart: String = ""
+
+                if (dotIndex != -1) {
+                    integerPart = cleanString.substring(0, dotIndex)
+                    if (cleanString.length > dotIndex + 1) {
+                        decimalPart = cleanString.substring(dotIndex + 1).take(2)
+                    }
+                } else {
+                    integerPart = cleanString
                 }
 
-                // Handle empty string case to avoid NumberFormatException
-                val parsed = if (cleanString.isNotEmpty()) cleanString.toDouble() else 0.0
+                if (integerPart.length > maxLength) {
+                    cleanString = integerPart.substring(0, maxLength)
+                }
 
-                value = parsed / 100
+                val formattedIntegerPart = if (integerPart.isNotEmpty()) {
+                    NumberFormat.getIntegerInstance(locale).format(integerPart.toLong())
+                } else {
+                    "0"
+                }
 
-                // Use US Dollar formatting
-                val formatted = NumberFormat.getCurrencyInstance(locale).format(value)
+                val formattedValue = if (decimalPart.isNotEmpty()) {
+                    "$formattedIntegerPart.$decimalPart"
+                } else if (dotIndex != -1) {
+                    "$formattedIntegerPart."
+                } else {
+                    formattedIntegerPart
+                }
 
-                removeTextChangedListener(this) // Prevent calling this watcher when formatting the text
-
-                setText(formatted)
-                setSelection(getEndingSelection())
-
+                removeTextChangedListener(this)
+                setText("$" + formattedValue)
+                setSelection(formattedValue.length + 1)
                 addTextChangedListener(this)
+
+                isFormatting = false
             }
         })
 
         if (text.isNullOrEmpty()) {
-            setText("$0.00") // Default display for empty input
+            setText("$0")
+            setSelection(2)
         }
     }
 
@@ -70,10 +93,6 @@ class CurrencyEditText : AppCompatEditText {
         }
     }
 
-    fun setMaxLength(maxLength: Int) {
-        this.maxLength = maxLength + 2 // Add number of decimals
-    }
-
     fun getNumericValue(): Double {
         return value
     }
@@ -82,10 +101,8 @@ class CurrencyEditText : AppCompatEditText {
         val string = text.toString()
 
         return if (string.isNotEmpty() && string.last().isDigit()) {
-            // Currency symbol is on the left side
             string.length
         } else {
-            // Currency symbol is on the right side, the cursor must be before it
             string.replace("[${currency.symbol}\\s]".toRegex(), "").length
         }
     }
